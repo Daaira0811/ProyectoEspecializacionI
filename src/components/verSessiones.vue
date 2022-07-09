@@ -1,8 +1,15 @@
 <template>
-<div class="container">
-    <h1>{{usuario.username}}</h1>
+<div class="container-md">
+        <h1>{{usuario.username}}</h1>
+        <hr>
+
+<div class="row">
+    <div class="col">
+         <h5 >Sesiones completadas</h5>
+<div class="container-cards">
     <div v-for="sesion in usuario.sessions" :key="sesion.id">
-    <div class="card w-25">
+    
+    <div class="card ">
         <div class="card-header">ID: {{sesion.id}}</div>
         <div class="card-body">
             Date: {{sesion.date}}<br>
@@ -11,10 +18,25 @@
         </div>
         </div>
     </div>
+    
 </div>
+    </div>
+    <div class="col">
+<div class="container-graphic">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+    </div>
+
+</div>
+
+</div>
+
 </template>
 <script>
 import axios from 'axios'
+import Chart from 'chart.js/auto';
+
+
 export default {
     data() {
         return {
@@ -23,9 +45,9 @@ export default {
                 id: null,
                 username: null,
                 sessions:[]
-            }
-
-
+            },
+            sesiones: [],
+            scoreSesiones:[]
         }
     },
 
@@ -44,26 +66,74 @@ export default {
                     return true;
                 }
             });
+        },
+        separarDatos() {
+            this.usuario.sessions.forEach(sesion => {
+                this.sesiones.push(String(sesion.id))
+             //   console.log(this.sesiones)
+                this.scoreSesiones.push(String(sesion.score))
+           }
+            )
         }
+
     },
-    mounted() {
-        axios
+  async mounted() {
+      await axios
             .get('https://7qak3a37b4dh7kisebhllubdxq0dnehm.lambda-url.us-east-1.on.aws')
             .then((response) => {
                 this.data = response.data
                 this.datosUsuario(this.data)
+                this.separarDatos()
             })
+
+    
+
+const ctx = document.getElementById('myChart');
+console.log(this.sesiones)
+const labels =this.sesiones;
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Puntaje',
+    data: this.scoreSesiones,
+    fill: false,
+    borderColor: 'rgb(255, 164, 032)',
+    tension: 0.1
+  }]
+};
+
+const myChart = new Chart(ctx, {
+  type: 'line',
+  data: data,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+        myChart;
+},
 }
-}
+
+
+
+
 </script>
 
 <style scoped>
 .card {
-    margin-top:5vh
+    margin-top:5vh;
 }
-.container{
-    margin:5vh;
-    text-align: center;
+.container-cards{
+     height: 82vh;
+     overflow-y:auto
+}
+.container-graphic{
+    align-items: center;
+    margin-top:5vh;
+    height: 80vh;
 }
 
 </style>
