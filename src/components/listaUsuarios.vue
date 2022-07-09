@@ -1,5 +1,6 @@
 <template>
-<div>
+<div class="container-md">
+    <h1>Usuarios registrados</h1>
     <table class="table table-hover">
         <thead>
 <tr>
@@ -78,5 +79,10 @@ export default {
 }
 </script>
 <style scoped>
-
+.container-md{
+    text-align: center;
+}
+h1{
+    margin:1em;
+}
 </style>

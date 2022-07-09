@@ -1,6 +1,6 @@
 <template>
 <div class="container-md">
-        <h1>{{usuario.username}}</h1>
+        <h1 id="nombreUsuario">{{usuario.username}}</h1>
         <hr>
 
 <div class="row">
@@ -23,10 +23,9 @@
     </div>
     <div class="col">
 <div class="container-graphic">
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="myChart" width="400" height="85vh"></canvas>
 </div>
     </div>
-
 </div>
 
 </div>
@@ -127,13 +126,16 @@ const myChart = new Chart(ctx, {
     margin-top:5vh;
 }
 .container-cards{
-     height: 82vh;
+     height: 75vh;
      overflow-y:auto
 }
 .container-graphic{
     align-items: center;
     margin-top:5vh;
-    height: 80vh;
+    height: 70vh;
+}
+#nombreUsuario{
+    margin:1em;
 }
 
 </style>
