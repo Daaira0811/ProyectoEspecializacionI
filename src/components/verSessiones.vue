@@ -1,4 +1,5 @@
 <template>
+<barraNavegacion/>
 <div class="container-md">
         <h1 id="nombreUsuario">{{usuario.username}}</h1>
         <hr>
@@ -34,9 +35,12 @@
 <script>
 import axios from 'axios'
 import Chart from 'chart.js/auto';
-
+import barraNavegacion from './barraNavegacion.vue';
 
 export default {
+    components: {
+        barraNavegacion
+    },  
     data() {
         return {
             data: [],

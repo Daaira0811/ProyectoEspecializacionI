@@ -9,7 +9,7 @@
 
         <form action class="form" @submit.prevent="login">
           <div class="mb-3">
-            <label class="form-label">Usuario:</label>
+            <label class="form-label">Usuario</label>
             <input
               v-model="username"
               type="text"
@@ -20,7 +20,7 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Contraseña:</label>
+            <label class="form-label">Contraseña</label>
             <input
               v-model="password"
               type="password"
@@ -79,6 +79,7 @@ export default {
         this.error = false;
         console.log(this.username);
         console.log(this.password);
+        window.location.href = "/listaUsuarios";
       }
     },
   },

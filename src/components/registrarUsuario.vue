@@ -20,7 +20,7 @@
           </div>
 
           <div class="col mb-3">
-            <label class="form-label">Correo:</label>
+            <label class="form-label">Correo</label>
             <input
               v-model="user.email"
               type="email"
@@ -31,7 +31,7 @@
           </div>
 
           <div class="col mb-3">
-            <label class="form-label">Contraseña:</label>
+            <label class="form-label">Contraseña</label>
             <input
               v-model="user.password"
               type="password"
