@@ -1,4 +1,6 @@
 <template>
+<div class="container-md">
+<div class="col-10">
 <div>
     <table class="table table-hover">
         <thead>
@@ -18,6 +20,9 @@
         </tbody>
     </table>
 </div>
+</div>
+</div>
+
 </template>
 <script>
 import axios from 'axios';
@@ -78,5 +83,9 @@ export default {
 }
 </script>
 <style scoped>
+.container-md{
+    display:flex;
+    justify-content: center;
+}
 
 </style>

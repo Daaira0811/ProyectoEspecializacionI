@@ -1,14 +1,15 @@
+
+
 <template>
-<barraNavegacion/>
 <div class="container-md">
-        <h1 id="nombreUsuario">{{usuario.username}}</h1>
+        <h1>{{usuario.username}}</h1>
         <hr>
 
 <div class="row">
     <div class="col">
          <h5 >Sesiones completadas</h5>
 <div class="container-cards">
-    <div v-for="sesion in usuario.sessions" :key="sesion.id">
+    <div v-for="sesion in usuario.session" :key="sesion.id">
     
     <div class="card ">
         <div class="card-header">ID: {{sesion.id}}</div>
@@ -24,9 +25,10 @@
     </div>
     <div class="col">
 <div class="container-graphic">
-    <canvas id="myChart" width="400" height="85vh"></canvas>
+    <canvas id="myChart" width="400" height="400"></canvas>
 </div>
     </div>
+
 </div>
 
 </div>
@@ -35,19 +37,16 @@
 <script>
 import axios from 'axios'
 import Chart from 'chart.js/auto';
-import barraNavegacion from './barraNavegacion.vue';
+
 
 export default {
-    components: {
-        barraNavegacion
-    },  
     data() {
         return {
             data: [],
             usuario: {
                 id: null,
                 username: null,
-                sessions:[]
+                session:[]
             },
             sesiones: [],
             scoreSesiones:[]
@@ -55,9 +54,10 @@ export default {
     },
 
     methods: {
-        datosUsuario(data) {
-            let id = this.$route.params.id
-            console.log(id)
+      /*   datosUsuario() {
+           
+           // console.log(id)
+            
             
             data.find(user => {
                 console.log(user.id)
@@ -69,27 +69,36 @@ export default {
                     return true;
                 }
             });
+             
         },
+        */
         separarDatos() {
-            this.usuario.sessions.forEach(sesion => {
+            this.usuario.session.forEach(sesion => {
                 this.sesiones.push(String(sesion.id))
              //   console.log(this.sesiones)
                 this.scoreSesiones.push(String(sesion.score))
+                console.log(this.sesiones)
            }
             )
         }
 
     },
-  async mounted() {
-      await axios
-            .get('https://7qak3a37b4dh7kisebhllubdxq0dnehm.lambda-url.us-east-1.on.aws')
-            .then((response) => {
-                this.data = response.data
-                this.datosUsuario(this.data)
-                this.separarDatos()
-            })
 
-    
+    async mounted() {
+         let id = this.$route.params.id
+          await  axios
+            .get(`http://localhost:8080/Users/${id}`)
+                 .then((response) => {
+                this.usuario.username = response.data.username
+                this.usuario.session = response.data.session
+                
+               // console.log(this.usuario.session)
+                 })
+            
+      //this.datosUsuario();
+
+      this.separarDatos();
+
 
 const ctx = document.getElementById('myChart');
 console.log(this.sesiones)
@@ -130,16 +139,13 @@ const myChart = new Chart(ctx, {
     margin-top:5vh;
 }
 .container-cards{
-     height: 75vh;
+     height: 82vh;
      overflow-y:auto
 }
 .container-graphic{
     align-items: center;
     margin-top:5vh;
-    height: 70vh;
-}
-#nombreUsuario{
-    margin:1em;
+    height: 80vh;
 }
 
 </style>
