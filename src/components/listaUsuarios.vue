@@ -1,10 +1,9 @@
 <template>
-<div class="container-md">
-    <h1>Usuarios registrados</h1>
+<div>
     <table class="table table-hover">
         <thead>
 <tr>
-<th scope="col"> ID :</th>    
+<!-- <th scope="col"> ID :</th>     -->
 <th scope="col"> USERNAME :</th>    
 <th scope="col"> SESSIONS :</th>      
 </tr>
@@ -12,7 +11,7 @@
        <!--<tbody id="cuerpoTabla"> --> 
             <tbody>
                 <tr v-for="user in data" :key="user.id">
-                    <td>{{user.id}}</td>
+                    <!-- <td>{{user.id}}</td> -->
                     <td>{{user.username}}</td>
                     <td><button type="button" class="btn btn-outline-success" @click="this.mostrarSesiones(user)">Ver sesiones</button></td>
                 </tr>
@@ -38,7 +37,7 @@ export default {
             this.$router.push({
                 name:  'verSessiones',
                 params: {
-                    id: usuario.id
+                    id: usuario._id
                 }
             });
            
@@ -65,7 +64,7 @@ export default {
     },
     mounted() {
      axios
-            .get('https://7qak3a37b4dh7kisebhllubdxq0dnehm.lambda-url.us-east-1.on.aws')
+            .get('http://localhost:8080/getAll')
             .then((response) => {
               //  console.log("GET Response");
                 this.data = response.data
@@ -79,10 +78,5 @@ export default {
 }
 </script>
 <style scoped>
-.container-md{
-    text-align: center;
-}
-h1{
-    margin:1em;
-}
+
 </style>

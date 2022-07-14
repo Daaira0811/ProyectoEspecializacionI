@@ -1,124 +1,150 @@
+
 <template>
-  <div class="container">
-    <div class="row justify-content-md-center" id="register">
-      <div class="col-8" id="form-container">
-        <div id="header">
-          <h1>Registro Usuario</h1>
-          <p>Ingrese sus datos para registrarse</p>
+<div class="container-md">
+        <h1>{{usuario.username}}</h1>
+        <hr>
+
+<div class="row">
+    <div class="col">
+         <h5 >Sesiones completadas</h5>
+<div class="container-cards">
+    <div v-for="sesion in usuario.session" :key="sesion.id">
+    
+    <div class="card ">
+        <div class="card-header">ID: {{sesion.id}}</div>
+        <div class="card-body">
+            Date: {{sesion.date}}<br>
+            Score: {{sesion.score}}<br>
+            Duration: {{sesion.duration}}<br>
         </div>
-
-        <form action class="form" @submit.prevent="registrar">
-          <div class="col mb-3">
-            <label class="form-label">Usuario</label>
-            <input
-              v-model="user.username"
-              type="text"
-              class="form-control"
-              placeholder="usuario"
-              :class="{ 'is-invalid': error && invalidUsuario }"
-            />
-          </div>
-
-          <div class="col mb-3">
-            <label class="form-label">Correo</label>
-            <input
-              v-model="user.email"
-              type="email"
-              class="form-control"
-              placeholder="correo"
-              :class="{ 'is-invalid': error && invalidCorreo }"
-            />
-          </div>
-
-          <div class="col mb-3">
-            <label class="form-label">Contraseña</label>
-            <input
-              v-model="user.password"
-              type="password"
-              class="form-control"
-              placeholder="contraseña"
-              :class="{ 'is-invalid': error && invalidContraseña }"
-            />
-          </div>
-
-          <div class="mb3">
-            <div v-if="error" class="alert alert-danger" role="alert">
-              ¡Debes rellenar el campo!
-            </div>
-          </div>
-
-          <div class="d-flex justify-content-center">
-            <button class="btn btn-primary" type="submit">Registrarse</button>
-          </div>
-        </form>
-
-        <div class="d-flex justify-content-center">
-          <p id="pregunta">¿Ya tienes una cuenta?</p>
         </div>
-
-        <div class="d-flex justify-content-center">
-          <a type="button" class="btn btn-link" href="/login">Inicia Sesion</a>
-        </div>
-      </div>
     </div>
-  </div>
-</template>
+    
+</div>
+    </div>
+    <div class="col">
+<div class="container-graphic">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+    </div>
 
+</div>
+
+</div>
+
+</template>
 <script>
+import axios from 'axios'
+import Chart from 'chart.js/auto';
+
+
 export default {
-  name: "registrarUsuario",
-  data: () => ({
-    user: {
-      id: "",
-      username: "",
-      email: "",
-      password: "",
-      sessions: {},
+    data() {
+        return {
+            data: [],
+            usuario: {
+                id: null,
+                username: null,
+                session:[]
+            },
+            sesiones: [],
+            scoreSesiones:[]
+        }
     },
-    error: false,
-  }),
-  computed: {
-    invalidUsuario() {
-      return this.user.username.length < 1;
+
+    methods: {
+      /*   datosUsuario() {
+           
+           // console.log(id)
+            
+            
+            data.find(user => {
+                console.log(user.id)
+                if (user.id == id) {
+                    this.usuario.id = user.id;
+                    this.usuario.username = user.username;
+                    this.usuario.sessions = user.sessions;
+                    console.log(this.usuario)
+                    return true;
+                }
+            });
+             
+        },
+        */
+        separarDatos() {
+            this.usuario.session.forEach(sesion => {
+                this.sesiones.push(String(sesion.id))
+             //   console.log(this.sesiones)
+                this.scoreSesiones.push(String(sesion.score))
+                console.log(this.sesiones)
+           }
+            )
+        }
+
     },
-    invalidCorreo() {
-      return this.user.email.length < 1;
-    },
-    invalidContraseña() {
-      return this.user.password.length < 1;
-    },
-  },
-  methods: {
-    registrar() {
-      if (this.invalidUsuario || this.invalidCorreo || this.invalidContraseña) {
-        this.error = true;
-        return;
-      } else {
-        this.error = false;
-        console.log(this.user.username);
-        console.log(this.user.email);
-        console.log(this.user.password);
-        //window.location.href = "/login";
-      }
-    },
-  },
+
+    async mounted() {
+         let id = this.$route.params.id
+          await  axios
+            .get(`http://localhost:8080/Users/${id}`)
+                 .then((response) => {
+                this.usuario.username = response.data.username
+                this.usuario.session = response.data.session
+                
+               // console.log(this.usuario.session)
+                 })
+            
+      //this.datosUsuario();
+
+      this.separarDatos();
+
+
+const ctx = document.getElementById('myChart');
+console.log(this.sesiones)
+const labels =this.sesiones;
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Puntaje',
+    data: this.scoreSesiones,
+    fill: false,
+    borderColor: 'rgb(255, 164, 032)',
+    tension: 0.1
+  }]
 };
+
+const myChart = new Chart(ctx, {
+  type: 'line',
+  data: data,
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+        myChart;
+},
+}
+
+
+
+
 </script>
 
 <style scoped>
-#register {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 80vh;
+.card {
+    margin-top:5vh;
 }
-#form-container {
-  width: 500px;
+.container-cards{
+     height: 82vh;
+     overflow-y:auto
 }
-#pregunta {
-  margin-top: 15px;
+.container-graphic{
+    align-items: center;
+    margin-top:5vh;
+    height: 80vh;
 }
-#header {
-  text-align: center;
-}
+
 </style>
