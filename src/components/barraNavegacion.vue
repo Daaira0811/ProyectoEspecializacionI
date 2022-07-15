@@ -25,7 +25,9 @@
           </li>
         </ul>
         <form action class="d-flex" @submit.prevent="logout">
-          <button id="button" class="btn btn-outline" type="submit">Cerrar Sesion</button>
+          <button id="button" class="btn btn-outline" type="submit">
+            Cerrar Sesion
+          </button>
         </form>
       </div>
     </div>

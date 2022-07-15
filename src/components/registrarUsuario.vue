@@ -48,7 +48,7 @@
           </div>
 
           <div class="d-flex justify-content-center">
-            <button class="btn btn-primary" type="submit" >Registrarse</button>
+            <button class="btn btn-primary" type="submit">Registrarse</button>
           </div>
         </form>
 
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "registrarUsuario",
   data: () => ({
@@ -94,21 +94,18 @@ export default {
         return;
       } else {
         this.error = false;
-        this.registrarAdmin()
+        this.registrarAdmin();
       }
     },
     async registrarAdmin() {
       await axios
-        .post('http://localhost:3000/register', this.user)
+        .post("http://localhost:3000/register", this.user)
         .then((resp) => {
-          console.log(resp)
-          console.log("Registrado exitosamente")
-        })
-            
+          console.log(resp);
+          console.log("Registrado exitosamente");
+        });
     },
   },
-
-
 };
 </script>
 

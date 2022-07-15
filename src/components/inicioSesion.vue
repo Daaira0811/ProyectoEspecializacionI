@@ -89,16 +89,16 @@ export default {
         .then((response) => {
           const { user, token } = response.data;
           localStorage.setItem("user", JSON.stringify(user));
-          console.log()
+          console.log();
           localStorage.setItem("token", token);
           if (user.role === "Admin") {
-              this.$router.push("/listaUsuarios");
+            this.$router.push("/listaUsuarios");
           } else {
-             this.$router.push({
-                name:  'verSessiones',
-                params: {
-                    id: user._id
-                }
+            this.$router.push({
+              name: "verSessiones",
+              params: {
+                id: user._id,
+              },
             });
           }
         })
