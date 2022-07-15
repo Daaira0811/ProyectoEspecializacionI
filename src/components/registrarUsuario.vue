@@ -103,6 +103,7 @@ export default {
         .then((resp) => {
           console.log(resp);
           console.log("Registrado exitosamente");
+          this.$router.push("/login");
         });
     },
   },
