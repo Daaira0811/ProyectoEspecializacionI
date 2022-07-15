@@ -11,7 +11,7 @@
           <div class="mb-3">
             <label class="form-label">Usuario</label>
             <input
-              v-model="username"
+              v-model="credenciales.username"
               type="text"
               class="form-control"
               placeholder="usuario"
@@ -22,7 +22,7 @@
           <div class="mb-3">
             <label class="form-label">Contraseña</label>
             <input
-              v-model="password"
+              v-model="credenciales.password"
               type="password"
               class="form-control"
               placeholder="contraseña"
@@ -55,19 +55,22 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "inicioSesion",
   data: () => ({
-    username: "",
-    password: "",
+    credenciales: {
+      username: "",
+      password: "",
+    },
     error: false,
   }),
   computed: {
     invalidUsuario() {
-      return this.username.length < 1;
+      return this.credenciales.username.length < 1;
     },
     invalidContraseña() {
-      return this.password.length < 1;
+      return this.credenciales.password.length < 1;
     },
   },
   methods: {
@@ -77,10 +80,19 @@ export default {
         return;
       } else {
         this.error = false;
-        console.log(this.username);
-        console.log(this.password);
-        window.location.href = "/listaUsuarios";
+        this.inicio();
       }
+    },
+    async inicio() {
+      await axios
+        .post("http://localhost:3000/login", this.credenciales)
+        .then((response) => {
+          const { user, token } = response.data;
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("token", token);
+          this.$router.push("/listaUsuarios");
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

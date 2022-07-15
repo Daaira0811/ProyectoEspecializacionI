@@ -89,25 +89,15 @@ export default {
   },
   methods: {
     registrar() {
-      console.log('asdasd')
       if (this.invalidUsuario || this.invalidCorreo || this.invalidContraseña) {
         this.error = true;
         return;
       } else {
         this.error = false;
         this.registrarAdmin()
-      
-
-
-        /* console.log(this.user.username);
-        console.log(this.user.email);
-        console.log(this.user.password); */
-
-        //window.location.href = "/login";
       }
     },
     async registrarAdmin() {
-      console.log('fsdasfsde')
       await axios
         .post('http://localhost:3000/register', this.user)
         .then((resp) => {
