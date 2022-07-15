@@ -48,7 +48,7 @@
           </div>
 
           <div class="d-flex justify-content-center">
-            <button class="btn btn-primary" type="submit">Registrarse</button>
+            <button class="btn btn-primary" type="submit" >Registrarse</button>
           </div>
         </form>
 
@@ -65,15 +65,14 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "registrarUsuario",
   data: () => ({
     user: {
-      id: "",
       username: "",
       email: "",
       password: "",
-      sessions: {},
     },
     error: false,
   }),
@@ -90,18 +89,36 @@ export default {
   },
   methods: {
     registrar() {
+      console.log('asdasd')
       if (this.invalidUsuario || this.invalidCorreo || this.invalidContraseña) {
         this.error = true;
         return;
       } else {
         this.error = false;
-        console.log(this.user.username);
+        this.registrarAdmin()
+      
+
+
+        /* console.log(this.user.username);
         console.log(this.user.email);
-        console.log(this.user.password);
+        console.log(this.user.password); */
+
         //window.location.href = "/login";
       }
     },
+    async registrarAdmin() {
+      console.log('fsdasfsde')
+      await axios
+        .post('http://localhost:3000/register', this.user)
+        .then((resp) => {
+          console.log(resp)
+          console.log("Registrado exitosamente")
+        })
+            
+    },
   },
+
+
 };
 </script>
 

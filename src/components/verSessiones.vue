@@ -87,7 +87,7 @@ export default {
     async mounted() {
          let id = this.$route.params.id
           await  axios
-            .get(`http://localhost:8080/Users/${id}`)
+            .get(`http://localhost:3000/Users/${id}`)
                  .then((response) => {
                 this.usuario.username = response.data.username
                 this.usuario.session = response.data.session

@@ -69,7 +69,7 @@ export default {
     },
     mounted() {
      axios
-            .get('http://localhost:8080/getAll')
+            .get('http://localhost:3000/getAll')
             .then((response) => {
               //  console.log("GET Response");
                 this.data = response.data
