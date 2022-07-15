@@ -24,17 +24,28 @@
             >
           </li>
         </ul>
-        <form class="d-flex">
-          <a class="button" type="submit" href="/login">Cerrar Sesion</a>
+        <form action class="d-flex" @submit.prevent="logout">
+          <button id="button" class="btn btn-outline" type="submit">Cerrar Sesion</button>
         </form>
       </div>
     </div>
   </nav>
 </template>
 
+<script>
+export default {
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
+
 <style scoped>
-.button{
-    color: white;
-    text-decoration: none;
+#button {
+  color: white;
+  text-decoration: none;
 }
 </style>
